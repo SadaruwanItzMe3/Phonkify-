@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: phonkify-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build: ./server
+    container_name: phonkify-server
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    env_file:
+      - ./server/.env
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/phonkify
+      - CLIENT_URL=http://localhost:8080
+    ports:
+      - "5000:5000"
+
+  client:
+    build: ./client
+    container_name: phonkify-client
+    restart: unless-stopped
+    depends_on:
+      - server
+    ports:
+      - "8080:80"
+
+volumes:
+  mongo-data:
