@@ -1,0 +1,34 @@
+{
+  "name": "phonkify-desktop",
+  "version": "1.0.0",
+  "description": "Phonkify desktop app — Electron shell around the Phonkify web client",
+  "main": "src/main.js",
+  "author": "Phonkify",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "cross-env PHONKIFY_DEV=true electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.9"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "electron": "^32.1.2",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.phonkify.desktop",
+    "productName": "Phonkify",
+    "files": ["src/**/*", "../client/dist/**/*", "build/**/*"],
+    "directories": { "output": "release" },
+    "mac": { "category": "public.app-category.music", "icon": "build/icon.icns" },
+    "win": { "target": "nsis", "icon": "build/icon.ico" },
+    "linux": { "target": ["AppImage", "deb"], "icon": "build/icon.png", "category": "Audio" },
+    "publish": { "provider": "github" }
+  }
+}

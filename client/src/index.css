@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  /* --- Phonkify neon-purple cyberpunk palette --- */
+  --color-void: #050308;
+  --color-void-soft: #0b0712;
+  --color-surface: #120a1f;
+  --color-surface-soft: #1a0f2e;
+  --color-neon-purple: #b026ff;
+  --color-neon-violet: #7c3aed;
+  --color-neon-pink: #ff2ec4;
+  --color-neon-cyan: #29f1ff;
+  --color-text-primary: #f4eaff;
+  --color-text-muted: #a893c4;
+
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  --animate-pulse-slow: pulse-slow 4s ease-in-out infinite;
+  --animate-glow: glow 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes glow {
+  from { filter: drop-shadow(0 0 6px var(--color-neon-purple)); }
+  to { filter: drop-shadow(0 0 18px var(--color-neon-pink)); }
+}
+
+html, body, #root {
+  height: 100%;
+  background-color: var(--color-void);
+  color: var(--color-text-primary);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.glass {
+  background: color-mix(in srgb, var(--color-surface) 55%, transparent);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid color-mix(in srgb, var(--color-neon-purple) 20%, transparent);
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--color-neon-purple) 45%, transparent);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--color-neon-purple) 70%, transparent);
+}
+
+.text-neon-gradient {
+  background: linear-gradient(90deg, var(--color-neon-cyan), var(--color-neon-purple) 45%, var(--color-neon-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.range-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-neon-purple) 25%, #2a1a3d);
+}
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--color-neon-purple);
+  box-shadow: 0 0 8px var(--color-neon-purple);
+  cursor: pointer;
+}
