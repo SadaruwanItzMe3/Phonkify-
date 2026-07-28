@@ -1,0 +1,41 @@
+name: Desktop Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build web client
+        working-directory: client
+        run: |
+          npm ci
+          npm run build
+
+      - name: Install Electron deps
+        working-directory: electron
+        run: npm ci
+
+      - name: Build desktop installer
+        working-directory: electron
+        run: npm run build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: phonkify-desktop-${{ matrix.os }}
+          path: electron/release/*
